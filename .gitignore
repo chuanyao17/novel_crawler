@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+venv/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Debug files
+debug.html
+debug_chapter.html
+chapter_debug.html
+
+# Test files
+test_output/
+
+# EPUB files
+*.epub
+
+# OS generated files
+.DS_Store
+Thumbs.db
