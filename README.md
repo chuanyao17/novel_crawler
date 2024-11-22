@@ -27,52 +27,66 @@
 - Python 3.12+
 - pip 套件管理器
 
-
 ## 安裝步驟
-- clone 專案：
-  ```bash
-  git clone https://github.com/chuanyao17/novel_crawler.git
-  ```
-- 進入專案目錄：
-  ```bash
-  cd novel_crawler
-  ```
-- 建立虛擬環境:
-  ```bash
-  python -m venv venv
-source venv/bin/activate # Linux/MacOS
-.\venv\Scripts\activate # Windows
-  ``` 
-- 安裝套件：
-  ```bash
-  pip install -r requirements.txt
-  ```
+
+1. clone 專案：
+```bash
+git clone https://github.com/chuanyao17/novel_crawler.git
+```
+
+2. 進入專案目錄：
+```bash
+cd novel_crawler
+```
+
+3. 建立虛擬環境:
+```bash
+python -m venv venv
+source venv/bin/activate  # Linux/MacOS
+.\venv\Scripts\activate   # Windows
+```
+
+4. 安裝套件：
+```bash
+pip install -r requirements.txt
+```
+
 ## 使用方法
-- 執行程式：
-  ```bash
-  python novel_info.py
-  ```
-- 依照提示操作：
+
+1. 執行程式：
+```bash
+python novel_info.py
+```
+
+2. 依照提示操作：
    - 輸入小說網址 (czbooks.net)
    - 選擇輸出目錄
    - 選擇下載範圍：
      - 全部章節
      - 指定範圍
      - 最新章節
-等待下載完成，EPUB 檔案會生成在指定目錄
+
+3. 等待下載完成，EPUB 檔案會生成在指定目錄
+
 ## 檔案結構
+
+```
 novel_crawler/
-├── novel_info.py # 主程式：爬蟲核心功能
-├── epub_generator.py # EPUB生成器：電子書生成功能
+├── novel_info.py      # 主程式：爬蟲核心功能
+├── epub_generator.py  # EPUB生成器：電子書生成功能
 ├── test_novel_info.py # 測試檔案：功能測試
-├── requirements.txt # 依賴套件清單
-├── checklist.md # 開發進度追蹤
-└── README.md # 專案說明文件
+├── requirements.txt   # 依賴套件清單
+├── checklist.md      # 開發進度追蹤
+└── README.md         # 專案說明文件
+```
+
 ## 開發測試
-- 執行所有測試：：
-  ```bash
-  python -m unittest test_novel_info.py -v
-  ```
+
+執行所有測試：
+```bash
+python -m unittest test_novel_info.py -v
+```
+
 ## 注意事項
 
 - 請遵守網站的使用規則
