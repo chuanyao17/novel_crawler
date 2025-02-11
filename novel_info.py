@@ -2,6 +2,8 @@
 
 from typing import List, Optional, TypedDict, Dict
 import requests  # type: ignore
+import cloudscraper
+from fake_useragent import UserAgent
 from bs4 import BeautifulSoup  # type: ignore
 import time
 import random
@@ -41,43 +43,39 @@ class NovelInfo:
 
     def __init__(self, url: str) -> None:
         self.url = url
-        self.headers = {
-            'User-Agent': (
-                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
-                'AppleWebKit/537.36 (KHTML, like Gecko) '
-                'Chrome/91.0.4472.124 Safari/537.36'
-            )
-        }
-        self.delay_range = (0.5, 1)  # 修改延遲範圍：0.5-1秒
+        self.scraper = cloudscraper.create_scraper()  # 用 cloudscraper 繞過 Cloudflare
+        # self.headers = {
+        #     'User-Agent': (
+        #         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+        #         'AppleWebKit/537.36 (KHTML, like Gecko) '
+        #         'Chrome/91.0.4472.124 Safari/537.36'
+        #     )
+        # }
+        self.ua = UserAgent()  # 隨機生成 User-Agent
+        self.delay_range = (2, 3)  # 修改延遲範圍：0.5-1秒
 
-    def _request_with_retry(
-        self,
-        url: str,
-        max_retries: int = 3
-    ) -> requests.Response:
-        """Make HTTP request with retry mechanism."""
+    def _request_with_retry(self, url: str, max_retries: int = 3) -> requests.Response:
+        """Make HTTP request with retry mechanism using CloudScraper."""
         last_exception = None
         for attempt in range(max_retries):
             try:
-                # 加入延遲
                 delay = random.uniform(*self.delay_range)
                 time.sleep(delay)
-                
-                # 分行處理長字串
-                response = requests.get(
-                    url,
-                    headers=self.headers,
-                    timeout=5
-                )
+                headers = {
+                    "User-Agent": self.ua.random,  # 隨機變更 User-Agent
+                    "Referer": "https://czbooks.net/"  # 增加 Referer 避免被偵測為機器人
+                }
+
+                response = self.scraper.get(url, headers=headers, timeout=10)
                 response.raise_for_status()
                 return response
-                
+
             except requests.RequestException as e:
                 last_exception = e
                 print(f"Attempt {attempt + 1} failed: {str(e)}")
                 if attempt == max_retries - 1:
                     raise last_exception
-                time.sleep(1)  # 固定重試延遲為1秒
+                time.sleep(2)  # 固定重試延遲為1秒
         
         raise requests.RequestException("All retry attempts failed")
 
