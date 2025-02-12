@@ -214,7 +214,7 @@ class NovelInfo:
     def download_chapters_parallel(
         self,
         chapters: List[ChapterInfo],
-        max_workers: int = 3
+        max_workers: int = 2
     ) -> List[Dict[str, str]]:
         """Download chapters using multiple threads."""
         results = []
@@ -309,7 +309,7 @@ def main() -> None:
         
         chapters = crawler.download_chapters_parallel(
             selected_chapters,
-            max_workers=3  # 使用3個線程
+            max_workers=2  # 使用2個線程
         )
         
         # 生成 EPUB
